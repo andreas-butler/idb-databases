@@ -12,6 +12,7 @@ Documentation & FAQ of observers. See accompanying WebIDL file [IDBObservers.web
   - [Deleting all IndexedDB databases](#deleting-all-indexeddb-databases)
   - [Making interactive list of all IndexedDB databases](#making-interactive-list-of-all-indexeddb-databases)
 - [Database enumeration implementation](#database-enumeration-implementation)
+- [Database enumeration consistency and guarantees](#database-enumeration-consistency-and-guarantees)
 - [Spec changes](#spec-changes)
 - [Future features](#future-features)
 
@@ -53,6 +54,9 @@ The database enumeration function will return a Promise of a Sequence of IDBData
 Returning the database information as a list wrapped in a Promise was chosen over returning an IDBRequest object, contrary to what has previously been the pattern with IndexedDB functions. This is because web development is moving in the direction of Promise-based asynchronous behaviour and as developers will not have been previously exposed to this standardized database enumeration function it is not expected that breaking the established pattern will cause serious issues. Additionally, keeping the IDBRequest object restricted to interactions with uniquely specified databases (eg: requests for opening / closing particular database instances ) was determined to be a cleaner design choice.
 
 The database version is returned with the name because existing developers desired such a feature ( https://github.com/w3c/IndexedDB/pull/240#issuecomment-391187653 ). Additionally, returning the version with the name forces a more extensible list-like return type that will make adding future fields to the IDBDatabaseInfo Object simpler.
+
+# Database enumeration consistency and guarantees
+The data returned by the database enumeration function is a snapshot. The database information is collected asynchronously and so there are no guarantees regarding the sequencing of collection with respect to any additional requests to create/delete/upgrade IndexedDB databases.
 
 # Spec changes
 See https://github.com/w3c/IndexedDB/pull/240/files#diff-ec9cfa5f3f35ec1f84feb2e59686c34dR2369
