@@ -1,6 +1,6 @@
 # Explainer
 Documentation & FAQ of IndexedDB databases enumeration function. 
-**Please file an issue @ [https://github.com/w3c/IndexedDB/issues](https://github.com/w3c/IndexedDB/issues) if you have any feedback :)**
+**Please file an issue @ [https://github.com/w3c/IndexedDB/issues](#https://github.com/w3c/IndexedDB/issues) if you have any feedback :)**
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
