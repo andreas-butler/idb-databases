@@ -17,7 +17,7 @@ Documentation & FAQ of observers. See accompanying WebIDL file [IDBObservers.web
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 # Why?
-At the time of writing this explainer IndexedDB does not have a standardized implementation for enumerating all databases within IndexedDB accessible by a given frame. Including such an implementation has been discussed with other browser vendors as well as developers. Both groups have been receptive to implementing such a method.
+IndexedDB databases() provides a standardized method for enumerating all IndexedDB databases accessible by the current frame, allowing for easy iteration over databases without requiring explicit knowledge of database names. At the time of writing this explainer such a standardized method does not exist. Including such an implementation has been discussed with amongst browser vendors as well as developers. Both groups have been receptive to implementing such a method  ( https://github.com/w3c/IndexedDB/issues/31 ).
 
 Use cases for databases enumeration include:
  * Easily deleting all IndexedDB databases for a given frame.
@@ -55,7 +55,7 @@ Returning the database information as a list wrapped in a Promise was chosen ove
 The database version is returned with the name because existing developers desired such a feature ( https://github.com/w3c/IndexedDB/pull/240#issuecomment-391187653 ). Additionally, returning the version with the name forces a more extensible list-like return type that will make adding future fields to the IDBDatabaseInfo Object simpler.
 
 # Spec changes
-https://github.com/w3c/IndexedDB/pull/240/files#diff-ec9cfa5f3f35ec1f84feb2e59686c34dR2369
+See https://github.com/w3c/IndexedDB/pull/240/files#diff-ec9cfa5f3f35ec1f84feb2e59686c34dR2369
 
 # Future Features
 As stated above, future features will potentially involve modifying the IDBDatabaseInfo object so that more meta-information regarding IndexedDB database instances can be returned upon invocation of the database enumeration function.
