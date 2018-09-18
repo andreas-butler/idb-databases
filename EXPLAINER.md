@@ -13,7 +13,7 @@ Documentation & FAQ of observers. See accompanying WebIDL file [IDBObservers.web
   - [Making interactive list of all IndexedDB databases](#making-interactive-list-of-all-indexeddb-databases)
 - [Database enumeration implementation](#database-enumeration-implementation)
 - [Spec changes](#spec-changes)
-- [Future features](#future-features
+- [Future features](#future-features)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 # Why?
