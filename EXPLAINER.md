@@ -1,6 +1,6 @@
 # Explainer
 Documentation & FAQ of IndexedDB databases enumeration function. 
-**Please file an issue if you have any feedback :)**
+**Please file an issue @ https://github.com/w3c/IndexedDB/issues if you have any feedback :)**
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -17,7 +17,7 @@ Documentation & FAQ of IndexedDB databases enumeration function.
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 # Why?
-IndexedDB databases() provides a standardized method for enumerating all IndexedDB databases accessible by the current context, allowing for easy iteration over databases without requiring explicit knowledge of database names. At the time of writing this explainer such a standardized method does not exist. Including such an implementation has been discussed with amongst browser vendors as well as developers. Both groups have been receptive to implementing such a method  ( https://github.com/w3c/IndexedDB/issues/31 ).
+IndexedDB databases() provides a standardized method for enumerating all IndexedDB databases accessible by the current context, allowing for easy iteration over databases without requiring explicit knowledge of database names. At the time of writing this explainer such a standardized method does not exist. Including such an implementation has been discussed amongst browser vendors as well as developers. Both groups have been receptive to implementing such a method  ( https://github.com/w3c/IndexedDB/issues/31 ).
 
 Use cases for databases enumeration include:
  * Easily deleting all IndexedDB databases accessible by a given context.
