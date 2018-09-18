@@ -1,6 +1,5 @@
 # Explainer
-Documentation & FAQ of observers. See accompanying WebIDL file [IDBObservers.webidl](/IDBObservers.webidl)
-
+Documentation & FAQ of IndexedDB databases enumeration function. 
 **Please file an issue if you have any feedback :)**
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
