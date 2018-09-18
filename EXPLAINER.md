@@ -9,8 +9,8 @@ Documentation & FAQ of observers. See accompanying WebIDL file [IDBObservers.web
 
 - [Why?](#why)
 - [Example Uses](#example-uses)
-  - [UI Element](#ui-element)
-  - [Server sync worker](#server-sync-worker)
+  - [Deleting all IndexedDB databases](#deleting-all-indexeddb-databases)
+  - [Making interactive list of all IndexedDB databases](#making-interactive-list-of-all-indexeddb-databases)
   - [Maintaining an in-memory data cache](#maintaining-an-in-memory-data-cache)
   - [Custom refresh logic](#custom-refresh-logic)
 - [interface IDBObserver](#interface-idbobserver)
@@ -50,61 +50,32 @@ Documentation & FAQ of observers. See accompanying WebIDL file [IDBObservers.web
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 # Why?
-At the time of writing this explainer IndexedDB does not have a standardized implementation for enumerating all databases within IndexedDB accessible by a given frame. 
+At the time of writing this explainer IndexedDB does not have a standardized implementation for enumerating all databases within IndexedDB accessible by a given frame. Including such an implementation has been discussed with other browser vendors as well as developers. Both groups have been receptive to implementing such a method.
 
-Use cases for observers include:
- * Updating the UI from database changes (data binding).
- * Syncing local state from background worker (like a ServiceWorker) or another tab making changes.
- * Serializing changes for network communication.
- * Maintaining an in-memory cache.
- * Simplified application logic.
+Use cases for databases enumeration include:
+ * Easily deleting all IndexedDB databases for a given frame.
+ * Easily opening/closing all IndexedDB databases for a given frame.
+ * Operating on programmatically generated IndexedDB databases of variable number.
+ * Creating admin UIs that allow for accessing all IndexedDB databases w/o need for going through a tool like DevTools
 
 # Example Uses
 
-## UI Element
-Let's say we're a polymer or angular webapp, and we have databinding working. **We rely on the guarantee that the observer will start immediately after the transaction it was created with**.
-
+## Deleting all IndexedDB databases
+There are a number of use cases in which deleting all existing IndexedDB databases is desirable. For example, developers have expressed a desire for wiping all IndexedDB databases in the event of possible data corruption ( https://github.com/w3c/IndexedDB/issues/31#issuecomment-324756055 ). This is implemented simply using IndexedDB database enumeration.
 ```javascript
-// uiComponent contains logic for updating it's own data.
-var uiComponent = this;
-// This function updates our UI component when the database is changed.
-var updateUICallback = function(changes) {
-  changes.records.get('users').forEach(function(record) {
-    switch(record.type) {
-      case 'clear':
-        uiComponent.clear();
-        break;
-      case 'add':
-        uiComponent.addUser(change.key, change.value);
-        break;
-      case 'put':
-        uiComponent.updateUser(change.key, change.value);
-        break;
-      case 'delete':
-        uiComponent.removeUser(change.key);
-        break;
-    }
-  });
-}
-// Observer creation. We want to include the values,
-// as we'll always use them to populate the UI.
-var observer = new IndexedDBObserver(
-    updateUICallback, { values: true, operations: ['add', 'put', 'delete', 'clear'] });
-// Create or transaction for both reading the table and attaching the observer.
-var txn = db.transaction('users', 'readonly');
-// We'll start seeing changes after 'txn' is complete.
-observer.observe(db, txn);
-// Now we read in our initial state for the component.
-var usersTable = txn.objectStore('users');
-var request = usersTable.getAll();
-request.onsuccess = function() {
-  request.result.forEach(function(user) {
-    uiComponent.addUser(user.id, user);
-  });
-}
-txn.oncomplete = function() {
-  console.log('component initialized and observer started');
-}
+let database_info_enumeration = await window.indexedDB.databases();
+database_info_enumeration.forEach(function(info) {
+  indexedDB.deleteDatabase(info.name);
+});
+```
+## Making interactive list of all IndexedDB databases
+One can imagine a case where a developer would like to have access to all indexedDB databases in a simple UI without having to operate through a tool like DevTools (eg: when making an admin page for their website). It could potentially be unreasonable to assume that all the databases available in IndexedDB are explicitly known, and so the only way to implement such a feature would necessitate database enumeration.
+```javascript
+let database_info_enumeration = await window.indexedDB.databases();
+let ui_list = [];
+database_info_enumeration.forEach(function(info) {
+  ui_list.push(info.name);
+});
 ```
 
 ## Server sync worker
