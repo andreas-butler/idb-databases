@@ -18,11 +18,11 @@ Documentation & FAQ of observers. See accompanying WebIDL file [IDBObservers.web
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 # Why?
-IndexedDB databases() provides a standardized method for enumerating all IndexedDB databases accessible by the current frame, allowing for easy iteration over databases without requiring explicit knowledge of database names. At the time of writing this explainer such a standardized method does not exist. Including such an implementation has been discussed with amongst browser vendors as well as developers. Both groups have been receptive to implementing such a method  ( https://github.com/w3c/IndexedDB/issues/31 ).
+IndexedDB databases() provides a standardized method for enumerating all IndexedDB databases accessible by the current context, allowing for easy iteration over databases without requiring explicit knowledge of database names. At the time of writing this explainer such a standardized method does not exist. Including such an implementation has been discussed with amongst browser vendors as well as developers. Both groups have been receptive to implementing such a method  ( https://github.com/w3c/IndexedDB/issues/31 ).
 
 Use cases for databases enumeration include:
- * Easily deleting all IndexedDB databases for a given frame.
- * Easily opening/closing all IndexedDB databases for a given frame.
+ * Easily deleting all IndexedDB databases accessible by a given context.
+ * Easily opening/closing all IndexedDB databases accessible by a given context.
  * Operating on programmatically generated IndexedDB databases of variable number.
  * Creating admin UIs that allow for accessing all IndexedDB databases w/o need for going through a tool like DevTools
 
@@ -57,6 +57,8 @@ The database version is returned with the name because existing developers desir
 
 # Database enumeration consistency and guarantees
 The data returned by the database enumeration function is a snapshot. The database information is collected asynchronously and so there are no guarantees regarding the sequencing of collection with respect to any additional requests to create/delete/upgrade IndexedDB databases.
+
+This asynchronous nature of the enumeration function resulted in a delay in its eventual implementation in a standardized form due to objections to racy behaviour.
 
 # Spec changes
 See https://github.com/w3c/IndexedDB/pull/240/files#diff-ec9cfa5f3f35ec1f84feb2e59686c34dR2369
